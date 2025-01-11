@@ -1,0 +1,20 @@
+{
+  "name": "tab-companion",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "electron": "^33.3.1",
+    "jsdom": "^26.0.0",
+    "node-fetch": "^3.3.2"
+  },
+  "description": ""
+}
