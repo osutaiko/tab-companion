@@ -34,9 +34,9 @@ function createOverlayWindow() {
     width: 300,
     height: 200,
     alwaysOnTop: true,
-    frame: true,
-    transparent: true,
-    resizable: false,
+    frame: false,
+    transparent: false,
+    resizable: true,
     movable: true,
     webPreferences: {
       contextIsolation: true,

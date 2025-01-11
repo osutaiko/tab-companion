@@ -42,7 +42,7 @@ export async function downloadTabFile(url, filename) {
       throw new Error('Failed to fetch the file');
     }
 
-    const filePath = path.join(__dirname, 'tabs', filename);
+    const filePath = path.join(process.cwd(), 'tabs', filename);
     const fileStream = fs.createWriteStream(filePath);
 
     await streamPipeline(response.body, fileStream);
