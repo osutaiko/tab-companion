@@ -1,4 +1,13 @@
 import { scraper } from './scraper.js';
+import { fileURLToPath } from 'url';
+import fs from 'fs';
+import path from 'path';
+import fetch from 'node-fetch';
+import { pipeline } from 'stream';
+import { promisify } from 'util';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const streamPipeline = promisify(pipeline);
 
 export async function getSearchResultFromSongsterrUrl(songsterrUrl) {
   const doc = await scraper.getDocumentFromUrl(songsterrUrl, 'html');
@@ -26,24 +35,20 @@ function getMetadataFromDoc(doc) {
   }
 }
 
-export async function getDownloadLinkFromSongId(songId) {
-  const url = urlBuilder.bySongId(songId);
+export async function downloadTabFile(url, filename) {
   try {
-    const xml = await scraper.getDocumentFromUrl(url, 'xml');
-    return findGuitarProTabLinkFromXml(xml) || '';
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('Failed to fetch the file');
+    }
+
+    const filePath = path.join(__dirname, 'tabs', filename);
+    const fileStream = fs.createWriteStream(filePath);
+
+    await streamPipeline(response.body, fileStream);
+
+    console.log('Download complete:', filePath);
   } catch (error) {
-    throw new Error('Error fetching download link');
+    console.error('Error downloading file:', error);
   }
 }
-
-function findGuitarProTabLinkFromXml(xml) {
-  return xml
-    .getElementsByTagName('guitarProTab')[0]
-    .getElementsByTagName('attachmentUrl')[0].firstChild?.nodeValue;
-}
-
-const urlBuilder = {
-  bySongId(songId) {
-    return `https://www.songsterr.com/a/ra/player/song/${songId}.xml`;
-  },
-};

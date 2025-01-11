@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from 'electron';
-import { getSearchResultFromSongsterrUrl, getDownloadLinkFromSongId } from './songsterr.js';
+import { getSearchResultFromSongsterrUrl, downloadTabFile } from './songsterr.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -31,9 +31,9 @@ async function fetchAndLogTabInfo(songsterrUrl) {
   try {
     const result = await getSearchResultFromSongsterrUrl(songsterrUrl);
     console.log('Song Info:', result);
-
-    /* const downloadLink = await getDownloadLinkFromSongId(result.songId);
-    console.log('Download Link:', downloadLink); */
+    if (result) {
+      await downloadTabFile(result.source, result.songId + '.gp');
+    }
   } catch (error) {
     console.error('Error fetching song data:', error);
   }
