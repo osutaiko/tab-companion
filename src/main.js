@@ -30,7 +30,7 @@ function createMainWindow() {
 }
 
 function createOverlayWindow() {
-  overlayWindow = new BrowserWindow({
+  const win = new BrowserWindow({
     width: 300,
     height: 200,
     alwaysOnTop: true,
@@ -43,9 +43,9 @@ function createOverlayWindow() {
     },
   });
 
-  overlayWindow.loadURL(path.join(__dirname, 'overlay.html'));
-  
-  overlayWindow.on('close', (e) => {
+  win.loadFile(path.join(__dirname, 'overlay.html'));
+
+  win.on('close', (e) => {
     e.preventDefault();
   });
 }
