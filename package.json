@@ -2,7 +2,7 @@
   "name": "tab-companion",
   "version": "1.0.0",
   "type": "module",
-  "main": "main.js",
+  "main": "./src/main.js",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,7 +14,8 @@
     "axios": "^1.7.9",
     "electron": "^33.3.1",
     "jsdom": "^26.0.0",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "tailwindcss": "^3.4.17"
   },
   "description": ""
 }

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-function createWindow() {
+function createMainWindow() {
   const win = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -25,6 +25,29 @@ function createWindow() {
     const currentUrl = win.webContents.getURL();
     await fetchAndLogTabInfo(currentUrl);
   });
+
+  createOverlayWindow();
+}
+
+function createOverlayWindow() {
+  overlayWindow = new BrowserWindow({
+    width: 300,
+    height: 200,
+    alwaysOnTop: true,
+    frame: true,
+    transparent: true,
+    resizable: false,
+    movable: true,
+    webPreferences: {
+      contextIsolation: true,
+    },
+  });
+
+  overlayWindow.loadURL(path.join(__dirname, 'overlay.html'));
+  
+  overlayWindow.on('close', (e) => {
+    e.preventDefault();
+  });
 }
 
 async function fetchAndLogTabInfo(songsterrUrl) {
@@ -40,7 +63,7 @@ async function fetchAndLogTabInfo(songsterrUrl) {
 }
 
 app.whenReady().then(() => {
-  createWindow();
+  createMainWindow();
 });
 
 app.on('window-all-closed', () => {
